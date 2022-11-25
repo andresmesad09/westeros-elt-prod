@@ -1,0 +1,153 @@
+mysql> DESCRIBE customers;
++------------------------+---------------+------+-----+---------+-------+
+| Field                  | Type          | Null | Key | Default | Extra |
++------------------------+---------------+------+-----+---------+-------+
+| customerNumber         | int           | NO   | PRI | NULL    |       |
+| customerName           | varchar(50)   | NO   |     | NULL    |       |
+| contactLastName        | varchar(50)   | NO   |     | NULL    |       |
+| contactFirstName       | varchar(50)   | NO   |     | NULL    |       |
+| phone                  | varchar(50)   | NO   |     | NULL    |       |
+| addressLine1           | varchar(50)   | NO   |     | NULL    |       |
+| addressLine2           | varchar(50)   | YES  |     | NULL    |       |
+| city                   | varchar(50)   | NO   |     | NULL    |       |
+| state                  | varchar(50)   | YES  |     | NULL    |       |
+| postalCode             | varchar(15)   | YES  |     | NULL    |       |
+| country                | varchar(50)   | NO   |     | NULL    |       |
+| salesRepEmployeeNumber | int           | YES  | MUL | NULL    |       |
+| creditLimit            | decimal(10,2) | YES  |     | NULL    |       |
++------------------------+---------------+------+-----+---------+-------+
+
+mysql> show index from customers;
++-----------+------------+------------------------+--------------+------------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table     | Non_unique | Key_name               | Seq_in_index | Column_name            | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-----------+------------+------------------------+--------------+------------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| customers |          0 | PRIMARY                |            1 | customerNumber         | A         |         122 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| customers |          1 | salesRepEmployeeNumber |            1 | salesRepEmployeeNumber | A         |          16 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-----------+------------+------------------------+--------------+------------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+mysql> DESCRIBE employees;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| employeeNumber | int          | NO   | PRI | NULL    |       |
+| lastName       | varchar(50)  | NO   |     | NULL    |       |
+| firstName      | varchar(50)  | NO   |     | NULL    |       |
+| extension      | varchar(10)  | NO   |     | NULL    |       |
+| email          | varchar(100) | NO   |     | NULL    |       |
+| officeCode     | varchar(10)  | NO   | MUL | NULL    |       |
+| reportsTo      | int          | YES  | MUL | NULL    |       |
+| jobTitle       | varchar(50)  | NO   |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+
+mysql> show index from employees;
++-----------+------------+------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table     | Non_unique | Key_name   | Seq_in_index | Column_name    | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-----------+------------+------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees |          0 | PRIMARY    |            1 | employeeNumber | A         |          23 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees |          1 | reportsTo  |            1 | reportsTo      | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| employees |          1 | officeCode |            1 | officeCode     | A         |           7 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++-----------+------------+------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+mysql> DESCRIBE offices;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| officeCode   | varchar(10) | NO   | PRI | NULL    |       |
+| city         | varchar(50) | NO   |     | NULL    |       |
+| phone        | varchar(50) | NO   |     | NULL    |       |
+| addressLine1 | varchar(50) | NO   |     | NULL    |       |
+| addressLine2 | varchar(50) | YES  |     | NULL    |       |
+| state        | varchar(50) | YES  |     | NULL    |       |
+| country      | varchar(50) | NO   |     | NULL    |       |
+| postalCode   | varchar(15) | NO   |     | NULL    |       |
+| territory    | varchar(10) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> show index from offices;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| offices |          0 | PRIMARY  |            1 | officeCode  | A         |           7 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+
+mysql> DESCRIBE orders;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| orderNumber    | int         | NO   | PRI | NULL    |       |
+| orderDate      | date        | NO   |     | NULL    |       |
+| requiredDate   | date        | NO   |     | NULL    |       |
+| shippedDate    | date        | YES  |     | NULL    |       |
+| status         | varchar(15) | NO   |     | NULL    |       |
+| comments       | text        | YES  |     | NULL    |       |
+| customerNumber | int         | NO   | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+
+mysql> show index from orders;
++--------+------------+----------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table  | Non_unique | Key_name       | Seq_in_index | Column_name    | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------+------------+----------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| orders |          0 | PRIMARY        |            1 | orderNumber    | A         |         326 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| orders |          1 | customerNumber |            1 | customerNumber | A         |          98 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++--------+------------+----------------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.13 sec)
+
+
+mysql> DESCRIBE payments;
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| customerNumber | int           | NO   | PRI | NULL    |       |
+| checkNumber    | varchar(50)   | NO   | PRI | NULL    |       |
+| paymentDate    | date          | NO   |     | NULL    |       |
+| amount         | decimal(10,2) | NO   |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+
+mysql> show index from payments;
++----------+------------+----------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name | Seq_in_index | Column_name    | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+----------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| payments |          0 | PRIMARY  |            1 | customerNumber | A         |          98 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| payments |          0 | PRIMARY  |            2 | checkNumber    | A         |         273 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------+------------+----------+--------------+----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+mysql> DESCRIBE productlines;
++-----------------+---------------+------+-----+---------+-------+
+| Field           | Type          | Null | Key | Default | Extra |
++-----------------+---------------+------+-----+---------+-------+
+| productLine     | varchar(50)   | NO   | PRI | NULL    |       |
+| textDescription | varchar(4000) | YES  |     | NULL    |       |
+| htmlDescription | mediumtext    | YES  |     | NULL    |       |
+| image           | mediumblob    | YES  |     | NULL    |       |
++-----------------+---------------+------+-----+---------+-------+
+
+mysql> show index from productlines;
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table        | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| productlines |          0 | PRIMARY  |            1 | productLine | A         |           7 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+mysql> DESCRIBE products;
++--------------------+---------------+------+-----+---------+-------+
+| Field              | Type          | Null | Key | Default | Extra |
++--------------------+---------------+------+-----+---------+-------+
+| productCode        | varchar(15)   | NO   | PRI | NULL    |       |
+| productName        | varchar(70)   | NO   |     | NULL    |       |
+| productLine        | varchar(50)   | NO   | MUL | NULL    |       |
+| productScale       | varchar(10)   | NO   |     | NULL    |       |
+| productVendor      | varchar(50)   | NO   |     | NULL    |       |
+| productDescription | text          | NO   |     | NULL    |       |
+| quantityInStock    | smallint      | NO   |     | NULL    |       |
+| buyPrice           | decimal(10,2) | NO   |     | NULL    |       |
+| MSRP               | decimal(10,2) | NO   |     | NULL    |       |
++--------------------+---------------+------+-----+---------+-------+
+
+mysql> show index from products;
++----------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name    | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| products |          0 | PRIMARY     |            1 | productCode | A         |         110 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| products |          1 | productLine |            1 | productLine | A         |           7 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
