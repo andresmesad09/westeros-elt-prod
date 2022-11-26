@@ -2,7 +2,7 @@ from google.cloud import bigquery
 from datetime import datetime
 
 TABLES = ['customers', 'employees', 'offices',
-          'orders', 'payments', 'productlines', 'products']
+          'orders', 'orderdetails', 'payments', 'productlines', 'products']
 
 # ref: https://cloud.google.com/bigquery/docs/schemas?hl=es-419#standard_sql_data_types
 SCHEMAS = {
@@ -51,6 +51,13 @@ SCHEMAS = {
         bigquery.SchemaField("comments", "STRING"),
         bigquery.SchemaField("customerNumber", "INT64"),
     ],
+    'orderdetails': [
+        bigquery.SchemaField("orderNumber", "INT64"),
+        bigquery.SchemaField("productCode", "STRING"),
+        bigquery.SchemaField("quantityOrdered", "INT64"),
+        bigquery.SchemaField("priceEach", "FLOAT64"),
+        bigquery.SchemaField("orderLineNumber", "STRING"),
+    ],
     'payments': [
         bigquery.SchemaField("customerNumber", "INT64"),
         bigquery.SchemaField("checkNumber", "STRING"),
@@ -88,11 +95,12 @@ def create_bigquery_tables(request):
             source_format=bigquery.SourceFormat.CSV,
             # ref: https://cloud.google.com/bigquery/docs/reference/auditlogs/rest/Shared.Types/BigQueryAuditMetadata.WriteDisposition
             write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+            field_delimiter="," if table != 'orderdetails' else f";",
         )
 
         table_id = f"westeros-project.westeros_dtlk_raw_prod.{table}"
         today = datetime.now().strftime('%Y-%m-%d')
-        file_name = f"{table}_{today}.csv"
+        file_name = f"{table}_{today}.csv" if table != 'orderdetails' else f"{table}.csv"
         uri = f"gs://westeros-dtlk-raw-prod/{file_name}"
 
         load_job = client.load_table_from_uri(
